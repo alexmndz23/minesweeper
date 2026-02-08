@@ -42,7 +42,7 @@ const Difficulty = ({ difficulty, setDifficulty }) => {
           name="difficulty"
           value="expert"
           onChange={handleChange}
-          checked={difficulty === "insane"}
+          checked={difficulty === "expert"}
         />
       </label>
     </div>
