@@ -1,48 +1,7 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import Cell from "./components/cell";
 
-const COLS = {
-  principiant: 9,
-  intermediate: 16,
-  advanced: 30,
-  expert: 30,
-};
-
-const ROWS = {
-  principiant: 9,
-  intermediate: 16,
-  advanced: 16,
-  expert: 24,
-};
-
-const MINES = {
-  principiant: 10,
-  intermediate: 40,
-  advanced: 99,
-  expert: 180,
-};
-
-const generateCells = (difficulty) => {
-  const cells = Array.from({ length: ROWS[difficulty] }, (_, r) =>
-    Array.from({ length: COLS[difficulty] }, (_, c) => ({
-      row: r,
-      col: c,
-      isMine: Math.random() < 0.1,
-      isRevealed: false,
-      isFlagged: false,
-    })),
-  );
-
-  return cells;
-};
-
-const Board = memo(({ difficulty }) => {
-  const [cells, setCells] = useState([]);
-
-  useEffect(() => {
-    setCells(generateCells(difficulty));
-  }, [difficulty]);
-
+const Board = memo(({ cells, setCells }) => {
   const revealCell = (cell) => {
     setCells((prevCells) => {
       const c = prevCells[cell.row][cell.col];
@@ -76,17 +35,18 @@ const Board = memo(({ difficulty }) => {
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col">
       {cells.map((row, rowIndex) => (
         <div
           key={rowIndex}
-          className="flex justify-center gap-1">
+          className="flex justify-center">
           {row.map((cell, cellIndex) => (
             <Cell
               key={cellIndex}
               isMine={cell.isMine}
               isRevealed={cell.isRevealed}
               isFlagged={cell.isFlagged}
+              aroundMines={cell.aroundMines}
               onClick={() => revealCell(cell)}
               onContextMenu={(e) => {
                 e.preventDefault();
