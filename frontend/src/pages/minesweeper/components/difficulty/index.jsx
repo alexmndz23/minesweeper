@@ -1,52 +1,30 @@
-const Difficulty = ({ difficulty, setDifficulty }) => {
-  const handleChange = (e) => {
-    setDifficulty(e.target.value);
-  };
+import { memo } from "react";
+import DifficultyRadio from "./components/difficulty-radio";
 
-  return (
-    <div>
-      <label>
-        Principiant
-        <input
-          type="radio"
-          name="difficulty"
-          value="principiant"
-          onChange={handleChange}
-          checked={difficulty === "principiant"}
-        />
-      </label>
-      <label>
-        Intermediate
-        <input
-          type="radio"
-          name="difficulty"
-          value="intermediate"
-          onChange={handleChange}
-          checked={difficulty === "intermediate"}
-        />
-      </label>
-      <label>
-        Advanced
-        <input
-          type="radio"
-          name="difficulty"
-          value="advanced"
-          onChange={handleChange}
-          checked={difficulty === "advanced"}
-        />
-      </label>
-      <label>
-        Expert
-        <input
-          type="radio"
-          name="difficulty"
-          value="expert"
-          onChange={handleChange}
-          checked={difficulty === "expert"}
-        />
-      </label>
-    </div>
-  );
-};
+const difficulties = [
+  { label: "Principiant", value: "principiant" },
+  { label: "Intermediate", value: "intermediate" },
+  { label: "Advanced", value: "advanced" },
+  { label: "Expert", value: "expert" },
+];
+
+const Difficulty = memo(
+  ({ difficulty, setDifficulty }) => {
+    return (
+      <div>
+        {difficulties.map((d) => (
+          <DifficultyRadio
+            key={d.value}
+            label={d.label}
+            value={d.value}
+            onChange={() => setDifficulty(d.value)}
+            checked={d.value === difficulty}
+          />
+        ))}
+      </div>
+    );
+  },
+  (prev, next) => prev.difficulty === next.difficulty,
+);
 
 export default Difficulty;
