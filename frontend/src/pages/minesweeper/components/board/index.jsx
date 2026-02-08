@@ -76,25 +76,26 @@ const Board = memo(({ difficulty }) => {
   };
 
   return (
-    <div
-      className="grid gap-1 place-content-center w-auto"
-      style={{
-        gridTemplateColumns: `repeat(${COLS[difficulty]}, min-content)`,
-        gridTemplateRows: `repeat(${ROWS[difficulty]}, min-content)`,
-      }}
-      onContextMenu={(e) => e.preventDefault()}>
-      {cells.map((row, rowIndex) =>
-        row.map((cell, cellIndex) => (
-          <Cell
-            key={`${rowIndex}-${cellIndex}`}
-            isMine={cell.isMine}
-            isRevealed={cell.isRevealed}
-            isFlagged={cell.isFlagged}
-            onClick={() => revealCell(cell)}
-            onContextMenu={() => markCell(cell)}
-          />
-        )),
-      )}
+    <div className="flex flex-col gap-1">
+      {cells.map((row, rowIndex) => (
+        <div
+          key={rowIndex}
+          className="flex justify-center gap-1">
+          {row.map((cell, cellIndex) => (
+            <Cell
+              key={cellIndex}
+              isMine={cell.isMine}
+              isRevealed={cell.isRevealed}
+              isFlagged={cell.isFlagged}
+              onClick={() => revealCell(cell)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                markCell(cell);
+              }}
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 });
