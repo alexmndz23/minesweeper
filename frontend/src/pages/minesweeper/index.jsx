@@ -9,9 +9,11 @@ import { generateCells } from "./utils/board";
 const Minesweeper = () => {
   const [difficulty, setDifficulty] = useState("principiant");
   const [cells, setCells] = useState([]);
+  const [firstMineRevealed, setFirstMineRevealed] = useState(null);
 
   useEffect(() => {
     setCells(generateCells(difficulty));
+    setFirstMineRevealed(null);
   }, [difficulty]);
 
   return (
@@ -26,6 +28,8 @@ const Minesweeper = () => {
         <Timer />
       </div>
       <Board
+        firstMineRevealed={firstMineRevealed}
+        setFirstMineRevealed={setFirstMineRevealed}
         cells={cells}
         setCells={setCells}
       />

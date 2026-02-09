@@ -9,6 +9,7 @@ const generateEmptyCells = (difficulty) => {
       isRevealed: false,
       isFlagged: false,
       aroundMines: 0,
+      firstMineofTheRound: false,
     })),
   );
 
@@ -66,15 +67,29 @@ const getAroundCells = (cell, cells) => {
   const aroundCells = [];
 
   DIRECTIONS.forEach(([dr, dc]) => {
-    const nr = cell.row + dr;
-    const nc = cell.col + dc;
+    const row = cell.row + dr;
+    const col = cell.col + dc;
 
-    if (cells[nr]?.[nc]) {
-      aroundCells.push(cells[nr][nc]);
+    if (cells?.[row]?.[col]) {
+      aroundCells.push(cells[row][col]);
     }
   });
 
   return aroundCells;
 };
 
-export { generateCells, getAroundCells };
+const getAllMines = (cells) => {
+  const mines = [];
+
+  for (let r = 0; r < ROWS.principiant; r++) {
+    for (let c = 0; c < COLS.principiant; c++) {
+      if (cells[r][c].isMine) {
+        mines.push(cells[r][c]);
+      }
+    }
+  }
+
+  return mines;
+};
+
+export { generateCells, getAroundCells, getAllMines };
